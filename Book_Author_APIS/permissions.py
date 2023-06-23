@@ -12,3 +12,12 @@ class AuthorPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         # Allow authors to edit their own books and pages
         return obj.author.user == request.user
+
+
+class IsAuthenticatedOrCreateOnly(BasePermission):
+    def has_permission(self, request, view):
+        # Allow registration (POST) and read (GET) requests without authentication
+        if request.method in ['POST', 'GET']:
+            return True
+        # Allow authenticated users for other operations
+        return request.user.is_authenticated
