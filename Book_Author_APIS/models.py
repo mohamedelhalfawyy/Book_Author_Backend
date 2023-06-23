@@ -1,5 +1,21 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+
+
+class User(AbstractUser):
+    # Add your custom fields here
+    groups = models.ManyToManyField(Group, related_name='book_author_apis_users', blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='book_author_apis_users',
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.',
+        related_query_name='book_author_apis_user',
+    )
+
+    class Meta(AbstractUser.Meta):
+        db_table = 'user'
 
 
 class Author(models.Model):
