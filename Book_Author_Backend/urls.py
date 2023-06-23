@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from Book_Author_APIS.views import (
+    BookListCreateView,
+    BookRetrieveUpdateDeleteView,
+    PageListCreateView,
+    PageRetrieveUpdateDeleteView,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('books/', BookListCreateView.as_view(), name='book_list_create'),
+    path('books/<int:pk>/', BookRetrieveUpdateDeleteView.as_view(), name='book_retrieve_update_delete'),
+    path('pages/', PageListCreateView.as_view(), name='page_list_create'),
+    path('pages/<int:pk>/', PageRetrieveUpdateDeleteView.as_view(), name='page_retrieve_update_delete'),
 ]
