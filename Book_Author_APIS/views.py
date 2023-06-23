@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions
-from .models import Book, Page
-from .serializers import BookSerializer, PageSerializer
+from .models import Book, Page, User
+from .serializers import BookSerializer, PageSerializer, UserSerializer
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
@@ -11,6 +11,12 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 
         # Allow write permissions only if the user is the author of the book
         return obj.book.author.user == request.user
+
+
+class UserRegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class BookListCreateView(generics.ListCreateAPIView):

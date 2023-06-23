@@ -21,11 +21,13 @@ from Book_Author_APIS.views import (
     BookRetrieveUpdateDeleteView,
     PageListCreateView,
     PageRetrieveUpdateDeleteView,
+    UserRegisterView,
 )
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', UserRegisterView.as_view(), name='user_register'),
     path('books/', BookListCreateView.as_view(), name='book_list_create'),
     path('books/<int:pk>/', BookRetrieveUpdateDeleteView.as_view(), name='book_retrieve_update_delete'),
     path('pages/', PageListCreateView.as_view(), name='page_list_create'),
