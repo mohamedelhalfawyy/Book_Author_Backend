@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from .models import Book, Page
-
+from .models import Book, Page, Author
 
 User = get_user_model()
 
@@ -21,6 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ['id','name']
+
+
 class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
@@ -36,11 +41,12 @@ class PageSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     pages = PageSerializer(many=True, read_only=True)
+    author = AuthorSerializer(read_only=True)  # Include the author serializer
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'pages']
-        read_only_fields = ['author']
+        fields = ['id', 'title', 'author', 'pages', 'readers']
+        read_only_fields = ['author', 'readers']
 
     def update(self, instance, validated_data):
         # Allow authors to update the book title
